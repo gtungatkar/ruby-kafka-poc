@@ -1,0 +1,47 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (7.0.3.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    concurrent-ruby (1.1.10)
+    concurrent-ruby-ext (1.1.10)
+      concurrent-ruby (= 1.1.10)
+    digest-crc (0.6.4)
+      rake (>= 12.0.0, < 14.0.0)
+    exponential-backoff (0.0.4)
+    i18n (1.12.0)
+      concurrent-ruby (~> 1.0)
+    little-plugger (1.1.4)
+    logging (2.3.1)
+      little-plugger (~> 1.1)
+      multi_json (~> 1.14)
+    minitest (5.16.2)
+    multi_json (1.15.0)
+    phobos (2.1.4)
+      activesupport (>= 3.0.0)
+      concurrent-ruby (>= 1.0.2)
+      concurrent-ruby-ext (>= 1.0.2)
+      exponential-backoff
+      logging
+      ruby-kafka
+      thor
+    rake (13.0.6)
+    ruby-kafka (1.5.0)
+      digest-crc
+    thor (1.2.1)
+    timeout (0.3.0)
+    tzinfo (2.0.4)
+      concurrent-ruby (~> 1.0)
+
+PLATFORMS
+  x86_64-darwin-20
+
+DEPENDENCIES
+  phobos
+  timeout
+
+BUNDLED WITH
+   2.2.3
