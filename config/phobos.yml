@@ -13,7 +13,7 @@ kafka:
   # identifier for this application
   client_id: phobos
   # timeout setting for connecting to brokers
-  connect_timeout: 900 #15 minutes
+  connect_timeout:
   # timeout setting for socket connections
   socket_timeout:
   # PEM encoded CA cert to use with an SSL connection (string)
@@ -31,10 +31,10 @@ kafka:
 producer:
   # number of seconds a broker can wait for replicas to acknowledge
   # a write before responding with a timeout
-  ack_timeout: 10
+  ack_timeout: 5
   # number of replicas that must acknowledge a write, or `:all`
   # if all in-sync replicas must acknowledge
-  required_acks: 1
+  required_acks: :all
   # number of retries that should be attempted before giving up sending
   # messages to the cluster. Does not include the original attempt
   max_retries: 2
@@ -64,16 +64,16 @@ producer:
   # This can speed up subsequent messages by around 30%, but it does mean
   # that you need to manually call sync_producer_shutdown before exiting,
   # similar to async_producer_shutdown.
-  persistent_connections: false
+  persistent_connections: true
   # kafka here supports the same parameters as the top-level, allowing custom connection
   # configuration details for producers
   kafka:
-    connect_timeout: 20
+    connect_timeout: 120
 
 consumer:
   # number of seconds after which, if a client hasn't contacted the Kafka cluster,
   # it will be kicked out of the group
-  session_timeout: 900
+  session_timeout: 30
   # interval between offset commits, in seconds
   offset_commit_interval: 10
   # number of messages that can be processed before their offsets are committed.
@@ -82,28 +82,28 @@ consumer:
   # the time period that committed offsets will be retained, in seconds. Defaults to the broker setting.
   offset_retention_time:
   # interval between heartbeats; must be less than the session window
-  heartbeat_interval: 600
+  heartbeat_interval: 10
   # kafka here supports the same parameters as the top-level, allowing custom connection
   # configuration details for consumers
   kafka:
-    connect_timeout: 900
+    connect_timeout: 130
 
 backoff:
   min_ms: 1000
   max_ms: 60000
 
 listeners:
-  - handler: DispatchHandler
+  - handler: Phobos::EchoHandler
     topic: test
     # id of the group that the consumer should join
-    group_id: test-6
+    group_id: test-1
     # Number of threads created for this listener, each thread will behave as an independent consumer.
     # They don't share any state
-    max_concurrency: 8
+    max_concurrency: 1
     # Once the consumer group has checkpointed its progress in the topic's partitions,
     # the consumers will always start from the checkpointed offsets, regardless of config
     # As such, this setting only applies when the consumer initially starts consuming from a topic
-    start_from_beginning: false
+    start_from_beginning: true
     # maximum amount of data fetched from a single partition at a time
     max_bytes_per_partition: 524288 # 512 KB
     # Minimum number of bytes to read before returning messages from the server; if `max_wait_time` is reached, this is ignored.
@@ -130,8 +130,8 @@ listeners:
       max_ms: 10000
     # session_timeout, offset_commit_interval, offset_commit_threshold, offset_retention_time, and heartbeat_interval
     # can be customized per listener if desired
-    session_timeout: 900
+    session_timeout: 30
     offset_commit_interval: 15
     offset_commit_threshold: 5
     offset_retention_time: 172800
-    heartbeat_interval: 600
+    heartbeat_interval: 20
